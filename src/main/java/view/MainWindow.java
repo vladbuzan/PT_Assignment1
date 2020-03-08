@@ -5,7 +5,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 public class MainWindow extends JFrame {
-    private final static  String[] operations = {"Add", "Subtract", "Differentiate", "Integrate", "Multiply"};
+    private final static  String[] operations = {"Add", "Subtract", "Differentiate", "Integrate", "Multiply", "Divide"};
     private final static String[] forms = {"Form 1", "Form 2"};
 
     private JTextField polynomial1TF;
@@ -16,13 +16,14 @@ public class MainWindow extends JFrame {
     private JPanel panelForm1;
     private JPanel panelForm2;
     private JPanel cards;
-
+    private boolean form1;
     private JPanel operationSelectPanel;
     private JComboBox operationSelectCB;
     private JButton computeButton;
 
     public MainWindow() {
         super("Polynomial Calculator");
+        form1 = false;
         mainPanel = new JPanel();
         panelForm1 = new JPanel(new BorderLayout());
         panelForm2 = new JPanel(new BorderLayout());
@@ -66,8 +67,10 @@ public class MainWindow extends JFrame {
            String item = (String)evt.getItem();
            if(item.equals(operations[2]) || item.equals(operations[3])) {
                cardLayout.show(cards, forms[0]);
+               form1 = true;
            } else {
                cardLayout.show(cards, forms[1]);
+               form1 = false;
            }
         });
         setContentPane(mainPanel);
@@ -76,6 +79,15 @@ public class MainWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
+    }
+    public String getPolynomial() {
+        return polynomial1TF.getText();
+    }
+    public String getPolynomial1() {
+        return polynomial2TF.getText();
+    }
+    public String getPolynomial2() {
+        return polynomial3TF.getText();
     }
 
     public static void main(String[] args) {

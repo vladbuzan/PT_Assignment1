@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-
+//TODO  Multiplication and Division
 public class Polynomial {
     private List<Monomial> polynomial;
-    Polynomial() {
+    public Polynomial() {
         polynomial = new ArrayList<Monomial>();
         polynomial.add(new Monomial(1,2.0));
         polynomial.add(new Monomial(1,4.0));
@@ -15,24 +15,11 @@ public class Polynomial {
         sort();
         polynomial.forEach(System.out::println);
     }
-    Polynomial(int i) {
-        polynomial = new ArrayList<Monomial>();
-        polynomial.add(new Monomial(1,2.0));
-        polynomial.add(new Monomial(1,4.0));
-        polynomial.add(new Monomial(1,3.0));
-        sort();
-        polynomial.forEach(System.out::println);
+    void differentiate() {
+        polynomial.forEach(Monomial::differentiate);
     }
-
-    void differentiate(Polynomial polynomial) {
-        for(Monomial monomial : this.polynomial) {
-            monomial.differentiate();
-        }
-    }
-    void integrate(Polynomial polynomial) {
-        for(Monomial monomial : this.polynomial) {
-            monomial.integrate();
-        }
+    void integrate() {
+        polynomial.forEach(Monomial::integrate);
     }
     private void addRemainingMonomials(Iterator<Monomial> iterator) {
         while(iterator.hasNext()) {
@@ -72,7 +59,7 @@ public class Polynomial {
         sort();
         polynomial.forEach(System.out::println);
     }
-    void substract(Polynomial polynomialArg) {
+    void subtract(Polynomial polynomialArg) {
         polynomialArg.negate();
         add(polynomialArg);
     }
@@ -88,11 +75,19 @@ public class Polynomial {
             polynomial.remove(monomial);
         }
     }
+    public void addMonomial(Monomial monomial) {
+        polynomial.add(monomial);
+    }
     public static void main(String[] args) {
-        Polynomial test1 = new Polynomial();
-        Polynomial test2 = new Polynomial(3);
-        test1.add(test2);
+
         return;
     }
-
+    @Override
+    public String toString() {
+        String ret = "";
+        for(Monomial monomial : polynomial) {
+            ret += monomial.toString();
+        }
+        return ret;
+    }
 }

@@ -34,6 +34,7 @@ public class Monomial {
     }
     @Override
     public String toString() {
-        return (Double.toString(getDegree()));
+        return ((coefficient >= 0 ? "+ ":"- ") + coefficient + (degree != 0 ? "x" : " ")
+                + ((degree != 1) && (degree != 0) ? "^" + degree : "") + " ");
     }
 }
