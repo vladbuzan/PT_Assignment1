@@ -8,8 +8,7 @@ public class Monomial {
         this.coefficient = coefficient;
         this.degree = degree;
     }
-
-    void derrivate() {
+    void differentiate() {
         coefficient *= degree;
         degree --;
     }
@@ -29,6 +28,9 @@ public class Monomial {
     }
     void addToCoefficient(double value) {
         coefficient += value;
+    }
+    void negate(){
+        coefficient = -coefficient;
     }
     @Override
     public String toString() {

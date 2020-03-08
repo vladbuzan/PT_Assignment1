@@ -24,9 +24,9 @@ public class Polynomial {
         polynomial.forEach(System.out::println);
     }
 
-    void derrivate(Polynomial polynomial) {
+    void differentiate(Polynomial polynomial) {
         for(Monomial monomial : this.polynomial) {
-            monomial.derrivate();
+            monomial.differentiate();
         }
     }
     void integrate(Polynomial polynomial) {
@@ -71,6 +71,13 @@ public class Polynomial {
         }
         sort();
         polynomial.forEach(System.out::println);
+    }
+    void substract(Polynomial polynomialArg) {
+        polynomialArg.negate();
+        add(polynomialArg);
+    }
+    private void negate() {
+        polynomial.forEach(Monomial::negate);
     }
     private void sort() {
         polynomial.sort(Monomial::compareTo);
