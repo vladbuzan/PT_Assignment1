@@ -3,15 +3,19 @@ package controller;
 import model.Polynomial;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 //TODO parsing stuff
 public class Utils {
 
-    Polynomial parsePolynomial (String polynomialString) throws IOException {
+    public static Polynomial parsePolynomial (String polynomialString){
         Polynomial ret = new Polynomial();
-        String[] monomials = polynomialString.split("\\+|\\-");
-        for (String monomial : monomials) {
-            System.out.println(monomial);
-        }
-        return new Polynomial();
+
+        return ret;
+    }
+
+    public static void main(String[] args) {
+        Polynomial p = parsePolynomial(" ");
     }
 }

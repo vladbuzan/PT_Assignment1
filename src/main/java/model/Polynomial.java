@@ -9,11 +9,6 @@ public class Polynomial {
     private List<Monomial> polynomial;
     public Polynomial() {
         polynomial = new ArrayList<Monomial>();
-        polynomial.add(new Monomial(1,2.0));
-        polynomial.add(new Monomial(1,4.0));
-        polynomial.add(new Monomial(1,1.0));
-        sort();
-        polynomial.forEach(System.out::println);
     }
     void differentiate() {
         polynomial.forEach(Monomial::differentiate);
@@ -34,7 +29,7 @@ public class Polynomial {
         Monomial monomial2 = iterator2.next();
         while (true) {
             if (monomial1.getDegree() == monomial2.getDegree()) {
-                addToMonomialCoeff(monomial1, monomial2.getCoefficient());
+                addToMonomialCoeff(monomial1, monomial2.getCoefficient().doubleValue());
                 if (iterator1.hasNext() && iterator2.hasNext()) {
                     monomial1 = iterator1.next();
                     monomial2 = iterator2.next();
@@ -63,6 +58,20 @@ public class Polynomial {
         polynomialArg.negate();
         add(polynomialArg);
     }
+    void simplify(){
+        sort();
+        ListIterator<Monomial> it = polynomial.listIterator();
+        Monomial monomial = it.next();
+        while(it.hasNext()) {
+            Monomial next = it.next();
+            if(monomial.getDegree() == next.getDegree()) {
+                monomial.addToCoefficient(next.getCoefficient().doubleValue());
+                polynomial.remove(next);
+            } else {
+                if(it.hasNext()) monomial = it.next();
+            }
+        }
+    }
     private void negate() {
         polynomial.forEach(Monomial::negate);
     }
@@ -71,16 +80,34 @@ public class Polynomial {
     }
     private void addToMonomialCoeff(Monomial monomial, double coeff) {
         monomial.addToCoefficient(coeff);
-        if(monomial.getCoefficient() == 0) {
+        if(monomial.getCoefficient().doubleValue() == 0) {
             polynomial.remove(monomial);
         }
     }
     public void addMonomial(Monomial monomial) {
         polynomial.add(monomial);
     }
+    public void multiply(Polynomial polynomialArg){
+        Polynomial newPolynomial = new Polynomial();
+        for(Monomial monomial1 : polynomial) {
+            for(Monomial monomial2 : polynomialArg.polynomial) {
+                newPolynomial.addMonomial(monomial1.multiply(monomial2));
+            }
+        }
+        polynomial = newPolynomial.polynomial;
+        simplify();
+    }
     public static void main(String[] args) {
 
-        return;
+        Polynomial p = new Polynomial();
+        Polynomial m = new Polynomial();
+        p.addMonomial(new Monomial(2,3));
+        p.addMonomial(new Monomial(1,2));
+        m.addMonomial(new Monomial(1,3));
+        m.addMonomial(new Monomial(2,1));
+        System.out.println(p + "\n" + m);
+        p.multiply(m);
+        System.out.println(p);
     }
     @Override
     public String toString() {
