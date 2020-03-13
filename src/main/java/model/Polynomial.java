@@ -78,7 +78,7 @@ public class Polynomial {
     private void sort() {
         polynomial.sort(Monomial::compareTo);
     }
-    private void addToMonomialCoeff(Monomial monomial, double coeff) {
+    private void addToMonomialCoeff(Monomial monomial, Number coeff) {
         monomial.addToCoefficient(coeff);
         if(monomial.getCoefficient().doubleValue() == 0) {
             polynomial.remove(monomial);
