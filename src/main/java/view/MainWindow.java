@@ -1,8 +1,8 @@
 package view;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class MainWindow extends JFrame {
     private final static  String[] operations = {"Add", "Subtract", "Differentiate", "Integrate", "Multiply", "Divide"};
@@ -40,7 +40,7 @@ public class MainWindow extends JFrame {
         polynomial3TF.setHorizontalAlignment(0);
         resultTF = new JTextField("Result");
         resultTF.setHorizontalAlignment(JTextField.CENTER);
-        operationSelectCB = new JComboBox(operations);
+        operationSelectCB = new JComboBox(Operation.values());
         operationSelectPanel.add(operationSelectCB);
         computeButton = new JButton("Compute");
         panelForm1.add(polynomialLabel1, BorderLayout.CENTER);
@@ -64,8 +64,8 @@ public class MainWindow extends JFrame {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         operationSelectCB.addItemListener(evt -> {
            CardLayout cardLayout = (CardLayout)(cards.getLayout());
-           String item = (String)evt.getItem();
-           if(item.equals(operations[2]) || item.equals(operations[3])) {
+           Operation item = (Operation)evt.getItem();
+           if(item.equals(Operation.Differentiate) || item.equals(Operation.Integrate)) {
                cardLayout.show(cards, forms[0]);
                form1 = true;
            } else {
@@ -89,8 +89,10 @@ public class MainWindow extends JFrame {
     public String getPolynomial2() {
         return polynomial3TF.getText();
     }
-
-    public static void main(String[] args) {
-        MainWindow lol = new MainWindow();
+    public void addComputeBtnListener(ActionListener listener) {
+        computeButton.addActionListener(listener);
+    }
+    public Operation getOperation(){
+        return (Operation)operationSelectCB.getSelectedItem();
     }
 }

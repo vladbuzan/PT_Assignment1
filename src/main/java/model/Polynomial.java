@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-//TODO  Multiplication and Division
+//TODO Division
 public class Polynomial {
     private List<Monomial> polynomial;
     public Polynomial() {
         polynomial = new ArrayList<Monomial>();
     }
-    void differentiate() {
+    public void differentiate() {
         polynomial.forEach(Monomial::differentiate);
     }
-    void integrate() {
+    public void integrate() {
         polynomial.forEach(Monomial::integrate);
     }
     private void addRemainingMonomials(Iterator<Monomial> iterator) {
@@ -58,7 +58,7 @@ public class Polynomial {
         polynomialArg.negate();
         add(polynomialArg);
     }
-    void simplify(){
+    public void simplify(){
         sort();
         ListIterator<Monomial> it = polynomial.listIterator();
         Monomial monomial = it.next();

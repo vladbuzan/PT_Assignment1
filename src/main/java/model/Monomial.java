@@ -38,14 +38,10 @@ public class Monomial {
     }
     @Override
     public String toString() {
-        return ((coefficient.doubleValue() >= 0 ? "+ ":"- ") + coefficient + (degree != 0 ? "x" : " ")
+        String coefficientString = ((coefficient.doubleValue() - Math.floor(coefficient.doubleValue())) == 0)?
+                Integer.toString(coefficient.intValue()) : String.format("%.2f", coefficient.doubleValue());
+        return ((coefficient.doubleValue() > 0 ? "+ ":"") + coefficientString + (degree != 0 ? "x" : " ")
                 + ((degree != 1) && (degree != 0) ? "^" + degree : "") + " ");
     }
 
-
-public static void main(String[] args) {
-    Monomial m = new Monomial(2,3);
-    m.integrate();
-    System.out.println(m.coefficient);
-}
 }
