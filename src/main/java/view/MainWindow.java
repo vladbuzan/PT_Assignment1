@@ -95,4 +95,11 @@ public class MainWindow extends JFrame {
     public Operation getOperation(){
         return (Operation)operationSelectCB.getSelectedItem();
     }
+    public void updateResult(String result) {
+        resultTF.setText(result);
+    }
+
+    public void displayError() {
+        System.out.println("Error");
+    }
 }

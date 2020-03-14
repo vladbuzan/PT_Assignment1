@@ -12,6 +12,7 @@ public class Polynomial {
     }
     public void differentiate() {
         polynomial.forEach(Monomial::differentiate);
+        removeZeroes();
     }
     public void integrate() {
         polynomial.forEach(Monomial::integrate);
@@ -22,7 +23,7 @@ public class Polynomial {
             polynomial.add(m);
         }
     }
-    void add(Polynomial polynomialArg) {
+    public void add(Polynomial polynomialArg) {
         ListIterator<Monomial> iterator1 = polynomial.listIterator();
         ListIterator<Monomial> iterator2 = polynomialArg.polynomial.listIterator();
         Monomial monomial1 = iterator1.next();
@@ -51,10 +52,10 @@ public class Polynomial {
                 } else break;
             }
         }
+        removeZeroes();
         sort();
-        polynomial.forEach(System.out::println);
     }
-    void subtract(Polynomial polynomialArg) {
+    public void subtract(Polynomial polynomialArg) {
         polynomialArg.negate();
         add(polynomialArg);
     }
@@ -80,9 +81,6 @@ public class Polynomial {
     }
     private void addToMonomialCoeff(Monomial monomial, Number coeff) {
         monomial.addToCoefficient(coeff);
-        if(monomial.getCoefficient().doubleValue() == 0) {
-            polynomial.remove(monomial);
-        }
     }
     public void addMonomial(Monomial monomial) {
         polynomial.add(monomial);
@@ -96,6 +94,15 @@ public class Polynomial {
         }
         polynomial = newPolynomial.polynomial;
         simplify();
+    }
+    private void removeZeroes(){
+        ListIterator<Monomial> iterator = polynomial.listIterator();
+        while(iterator.hasNext()) {
+            Monomial monomial = iterator.next();
+            if(monomial.getCoefficient().doubleValue() == 0.0) {
+                iterator.remove();
+            }
+        }
     }
     public static void main(String[] args) {
 
@@ -112,6 +119,7 @@ public class Polynomial {
     @Override
     public String toString() {
         String ret = "";
+        if(polynomial.size() == 0) return "0";
         for(Monomial monomial : polynomial) {
             ret += monomial.toString();
         }

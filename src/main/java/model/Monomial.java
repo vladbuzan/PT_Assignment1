@@ -40,7 +40,7 @@ public class Monomial {
     public String toString() {
         String coefficientString = ((coefficient.doubleValue() - Math.floor(coefficient.doubleValue())) == 0)?
                 Integer.toString(coefficient.intValue()) : String.format("%.2f", coefficient.doubleValue());
-        return ((coefficient.doubleValue() > 0 ? "+ ":"") + coefficientString + (degree != 0 ? "x" : " ")
+        return ((coefficient.doubleValue() > 0 ? "+":"") + coefficientString + (degree != 0 ? "x" : " ")
                 + ((degree != 1) && (degree != 0) ? "^" + degree : "") + " ");
     }
 

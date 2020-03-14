@@ -52,7 +52,8 @@ public class Utils {
             monomialMatcher = degreePattern.matcher(monomialString);
             if(monomialMatcher.find()) {
                 degree = Integer.parseInt(monomialString.substring(monomialMatcher.start() + 2));
-                return new Monomial(1, degree);
+                coefficient = (monomialString.charAt(0) == '-')? -1:1;
+                return new Monomial(coefficient, degree);
             } else {
                 monomialMatcher = xPattern.matcher(monomialString);
                 if(monomialMatcher.matches()) {
