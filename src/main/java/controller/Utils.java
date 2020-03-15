@@ -5,7 +5,7 @@ import model.Polynomial;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import static model.PolynomialUtils.*;
 
 public class Utils {
     private static Pattern polynomialPattern;
@@ -18,7 +18,8 @@ public class Utils {
     private static Matcher monomialMatcher;
 
     static {
-        polynomialPattern = Pattern.compile("((\\+?|\\-?)\\d{0,6}?\\*?x(\\^\\d{1,6})?)|((\\+|\\-)?\\d{1,6})");
+        polynomialPattern = Pattern.compile("((\\+?|\\-?)\\d{0,6}?\\*?x(\\^\\d{1,6})?)|" +
+                                "((\\+|\\-)?\\d{1,6})");
         monomialPattern = Pattern.compile("(\\d{0,6}?\\*?x(\\^\\d{1,6})?)|(\\d{1,6})");
         splitPattern = Pattern.compile("\\+|\\-");
         coefficientPattern = Pattern.compile("^(\\+|\\-)?\\d{1,6}\\*?x");
@@ -73,7 +74,7 @@ public class Utils {
         while(polynomialMatcher.find()){
             polynomial.addMonomial(parseMonomial(polynomialMatcher.group()));
         }
-        polynomial.simplify();
+        simplify(polynomial);
         return polynomial;
     }
 
