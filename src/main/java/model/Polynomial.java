@@ -1,17 +1,15 @@
 package model;
+
 import static model.PolynomialUtils.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-//TODO Division
+
 public class Polynomial {
     List<Monomial> polynomial;
+
     public Polynomial() {
         polynomial = new ArrayList<Monomial>();
-    }
-    public Polynomial(List<Monomial> polynomial) {
-        this.polynomial = polynomial;
     }
 
     public void add(Polynomial polynomialArg) {
@@ -26,14 +24,14 @@ public class Polynomial {
                     monomial1 = iterator1.next();
                     monomial2 = iterator2.next();
                 } else {
-                    addRemainingMonomials(iterator2);
+                    addRemainingMonomials(this, iterator2);
                     break;
                 }
             } else if (monomial1.getDegree() > monomial2.getDegree()) {
                 if (iterator1.hasNext()) {
                     monomial1 = iterator1.next();
                 } else {
-                    addRemainingMonomials(iterator2);
+                    addRemainingMonomials(this, iterator2);
                     break;
                 }
             } else {
@@ -61,43 +59,31 @@ public class Polynomial {
     }
 
     public void multiply(Polynomial polynomialArg){
-        Polynomial newPolynomial = new Polynomial();
-        for(Monomial monomial1 : polynomial) {
+        List<Monomial> polynomial = new ArrayList<>();
+        for(Monomial monomial1 : this.polynomial) {
             for(Monomial monomial2 : polynomialArg.polynomial) {
-                newPolynomial.addMonomial(monomial1.multiply(monomial2));
+                polynomial.add(monomial1.multiply(monomial2));
             }
         }
-        polynomial = newPolynomial.polynomial;
+        this.polynomial = polynomial;
         simplify(this);
+        removeZeroes(this);
     }
 
-
-    private void addRemainingMonomials(Iterator<Monomial> iterator) {
-        while(iterator.hasNext()) {
-            Monomial m = iterator.next();
-            polynomial.add(m);
-        }
-    }
-
-    public Polynomial divide(Polynomial polynomialArg) { //quotient in this(), rest is returned
+    public Polynomial divide(Polynomial polynomialArg) throws ArithmeticException{ //quotient in this(), rest is returned
+        if (lead(polynomialArg).getCoefficient().doubleValue() == 0) throw new ArithmeticException("Division by 0");
         Polynomial quotient = new Polynomial();
         Polynomial rest = copy(this);
         Monomial term;
         while((rest.polynomial.size() > 0) && (lead(rest).getDegree() >= lead(polynomialArg).getDegree())) {
             term = new Monomial(lead(rest));
             term.divide(lead(polynomialArg));
-            quotient.addMonomial(new Monomial(term));
+            addMonomial(quotient, new Monomial(term));
             rest.subtract(multiplyByMonomial(polynomialArg, term));
         }
         this.polynomial = quotient.polynomial;
         return rest;
     }
-
-    public void addMonomial(Monomial monomial) {
-        polynomial.add(monomial);
-    }
-
-
     @Override
     public String toString() {
         String ret = "";
@@ -107,7 +93,4 @@ public class Polynomial {
         }
         return ret;
     }
-    int degree(){
-    return 0;}
-
 }

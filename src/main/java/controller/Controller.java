@@ -17,39 +17,81 @@ public class Controller {
             Operation operation = view.getOperation();
             switch (operation) {
                 case Add:
-                    Add();
+                    add();
                     break;
                 case Subtract:
-                    Subtract();
+                    subtract();
                     break;
                 case Integrate:
-                    Integrate();
+                    integrate();
                     break;
                 case Differentiate:
-                    Differentiate();
+                    differentiate();
                     break;
                 case Divide:
-                    Divide();
+                    divide();
                     break;
                 case Multiply:
-                    Multiply();
+                    multiply();
                     break;
             }
         });
     }
 
-    private void Multiply() {
+    private void add() {
+        try{
+            Polynomial polynomial1 = parsePolynomial(view.getPolynomial1());
+            Polynomial polynomial2 = parsePolynomial(view.getPolynomial2());
+            polynomial1.add(polynomial2);
+            view.updateResult(polynomial1.toString());
+        } catch(Exception ex) {
+            view.updateResult("Error: " + ex.getMessage());
+        }
+    }
+
+    private void subtract() {
+        try{
+            Polynomial polynomial1 = parsePolynomial(view.getPolynomial1());
+            Polynomial polynomial2 = parsePolynomial(view.getPolynomial2());
+            polynomial1.subtract(polynomial2);
+            view.updateResult(polynomial1.toString());
+        } catch(Exception ex) {
+            view.updateResult("Error: " + ex.getMessage());
+        }
+    }
+
+    private void differentiate() {
+        try {
+            Polynomial polynomial = parsePolynomial(view.getPolynomial());
+            polynomial.differentiate();
+            view.updateResult(polynomial.toString());
+        } catch(Exception ex) {
+            view.updateResult(ex.getMessage());
+        }
+    }
+
+    private void integrate() {
+        try {
+            Polynomial polynomial = parsePolynomial(view.getPolynomial());
+            polynomial.integrate();
+            view.updateResult(polynomial.toString());
+        } catch(Exception ex) {
+            view.updateResult("Error: " + ex.getMessage());
+        }
+    }
+
+    private void multiply() {
         try {
             Polynomial polynomial1 = parsePolynomial(view.getPolynomial1());
             Polynomial polynomial2 = parsePolynomial(view.getPolynomial2());
             polynomial1.multiply(polynomial2);
             view.updateResult(polynomial1.toString());
         } catch(Exception ex) {
-            view.displayError();
+            view.updateResult("Error: " + ex.getMessage());
         }
     }
 
-    private void Divide() {
+    private void divide() {
         try {
             Polynomial polynomial1 = parsePolynomial(view.getPolynomial1());
             Polynomial polynomial2 = parsePolynomial(view.getPolynomial2());
@@ -60,55 +102,11 @@ public class Controller {
             String result = "quotient: " + polynomial1 + restString;
             view.updateResult(result);
         } catch (Exception ex) {
-            view.displayError();
-            System.out.println("error");
-        }
-    }
-
-    private void Differentiate() {
-        try {
-            Polynomial polynomial = parsePolynomial(view.getPolynomial());
-            polynomial.differentiate();
-            view.updateResult(polynomial.toString());
-        } catch(Exception ex) {
-            view.displayError();
-        }
-    }
-
-    private void Integrate() {
-        try {
-            Polynomial polynomial = parsePolynomial(view.getPolynomial());
-            polynomial.integrate();
-            view.updateResult(polynomial.toString());
-        } catch(Exception ex) {
-            view.displayError();
-        }
-    }
-
-    private void Add() {
-        try{
-            Polynomial polynomial1 = parsePolynomial(view.getPolynomial1());
-            Polynomial polynomial2 = parsePolynomial(view.getPolynomial2());
-            polynomial1.add(polynomial2);
-            view.updateResult(polynomial1.toString());
-        } catch(Exception ex) {
-            System.out.println(ex.getMessage());
-            view.displayError();
-        }
-    }
-
-    private void Subtract() {
-        try{
-            Polynomial polynomial1 = parsePolynomial(view.getPolynomial1());
-            Polynomial polynomial2 = parsePolynomial(view.getPolynomial2());
-            polynomial1.subtract(polynomial2);
-            view.updateResult(polynomial1.toString());
-        } catch(Exception ex) {
-            view.displayError();
+            view.updateResult("Error: " + ex.getMessage());
         }
     }
 
     public static void main(String[] args) {
-        Controller ct = new Controller();
+        Controller controller = new Controller();
     }
 }

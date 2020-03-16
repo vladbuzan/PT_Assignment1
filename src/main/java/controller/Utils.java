@@ -15,7 +15,6 @@ public class Utils {
     private static Pattern degreePattern;
     private static Pattern xPattern;
     private static Matcher polynomialMatcher;
-    private static Matcher monomialMatcher;
 
     static {
         polynomialPattern = Pattern.compile("((\\+?|\\-?)\\d{0,6}?\\*?x(\\^\\d{1,6})?)|" +
@@ -26,6 +25,7 @@ public class Utils {
         degreePattern = Pattern.compile("x\\^\\d{1,6}");
         xPattern = Pattern.compile("(\\+|\\-)?x");
     }
+
     private static boolean isValidPolynomial(String polynomial) {
         String[] monomials = splitPattern.split(polynomial);
         for(String monomial : monomials) {
@@ -37,11 +37,12 @@ public class Utils {
         }
         return true;
     }
+
     private static Monomial parseMonomial(String monomialString) throws NumberFormatException {
         monomialString = monomialString.replace("*", "");
         Number coefficient;
         int degree;
-        monomialMatcher = coefficientPattern.matcher(monomialString); //monomial of type (+/-)yy*x
+        Matcher monomialMatcher = coefficientPattern.matcher(monomialString); //monomial of type (+/-)yy*x
         if(monomialMatcher.find()) {
             coefficient = Integer.parseInt(monomialString.substring(0, monomialMatcher.end() - 1));
             monomialMatcher = degreePattern.matcher(monomialString); //looking for x^yyy
@@ -64,6 +65,7 @@ public class Utils {
             }
         }
     }
+
     public static Polynomial parsePolynomial (String polynomialString) throws IOException, NumberFormatException{
         Polynomial polynomial = new Polynomial();
         polynomialString = polynomialString.replace(" ", "");
@@ -72,19 +74,9 @@ public class Utils {
         }
         polynomialMatcher = polynomialPattern.matcher(polynomialString);
         while(polynomialMatcher.find()){
-            polynomial.addMonomial(parseMonomial(polynomialMatcher.group()));
+            addMonomial(polynomial, parseMonomial(polynomialMatcher.group()));
         }
         simplify(polynomial);
         return polynomial;
-    }
-
-    public static void main(String[] args) {
-        try {
-            Polynomial m = parsePolynomial("2x^2 + 3");
-            m.integrate();
-            System.out.println(m);
-        } catch(Exception ex) {
-            System.out.println("error:" + ex.getMessage());
-        }
     }
 }

@@ -1,45 +1,51 @@
 package model;
 
+import java.util.Iterator;
 import java.util.ListIterator;
 
 public class PolynomialUtils {
 
-    static void removeZeroes(Polynomial polynomialArg) {
-        ListIterator<Monomial> iterator = polynomialArg.polynomial.listIterator();
-        while(iterator.hasNext()) {
-            Monomial monomial = iterator.next();
-            if(monomial.getCoefficient().doubleValue() == 0.0) {
-                iterator.remove();
-            }
-        }
+    static void sort(Polynomial polynomialArg) {
+        polynomialArg.polynomial.sort(Monomial::compareTo);
     }
 
     static void negate(Polynomial polynomialArg) {
         polynomialArg.polynomial.forEach(Monomial::negate);
     }
 
-    static void sort(Polynomial polynomialArg) {
-        polynomialArg.polynomial.sort(Monomial::compareTo);
-    }
-
     static Monomial lead(Polynomial polynomialArg) {
         return polynomialArg.polynomial.get(0);
     }
 
-    static Polynomial copy(Polynomial polynomialArg) {
-        Polynomial copy = new Polynomial();
-        for (Monomial monomial : polynomialArg.polynomial) {
-            copy.addMonomial(new Monomial(monomial));
-        }
-        return copy;
+    static void removeZeroes(Polynomial polynomialArg) {
+        polynomialArg.polynomial.removeIf(monomial -> monomial.getCoefficient().doubleValue() == 0.0);
     }
 
     static Polynomial multiplyByMonomial(Polynomial polynomialArg, Monomial monomialArg) {
         Polynomial ret = new Polynomial();
         for(Monomial monomial : polynomialArg.polynomial) {
-            ret.addMonomial(monomial.multiply(monomialArg));
+            addMonomial(ret, monomial.multiply(monomialArg));
         }
         return ret;
+    }
+
+    static void addRemainingMonomials(Polynomial polynomialArg, Iterator<Monomial> iterator) {
+        while(iterator.hasNext()) {
+            Monomial m = iterator.next();
+            polynomialArg.polynomial.add(m);
+        }
+    }
+
+    static Polynomial copy(Polynomial polynomialArg) {
+        Polynomial copy = new Polynomial();
+        for (Monomial monomial : polynomialArg.polynomial) {
+            addMonomial(copy, new Monomial(monomial));
+        }
+        return copy;
+    }
+
+    public static  void addMonomial(Polynomial polynomial ,Monomial monomial) {
+        polynomial.polynomial.add(monomial);
     }
 
     public static void simplify(Polynomial polynomialArg){

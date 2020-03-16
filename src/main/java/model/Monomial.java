@@ -13,6 +13,7 @@ public class Monomial {
         this.coefficient = monomial.coefficient;
         this.degree = monomial.degree;
     }
+
     int getDegree(){
         return degree;
     }
@@ -65,5 +66,4 @@ public class Monomial {
         return ((coefficient.doubleValue() > 0 ? "+":"") + coefficientString + (degree != 0 ? "x" : " ")
                 + ((degree != 1) && (degree != 0) ? "^" + degree : "") + " ");
     }
-
 }
